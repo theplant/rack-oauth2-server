@@ -558,7 +558,7 @@ module Rack
 
         # True if authentication scheme is OAuth.
         def oauth?
-          authorization[/^oauth/i] if authorization
+          authorization[/^bearer/i] if authorization
         end
 
         # True if authentication scheme is Basic.
