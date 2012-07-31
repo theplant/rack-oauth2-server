@@ -31,7 +31,7 @@ module Rack
         # @return [Client]
         def get_client(client_id)
           return client_id if Client === client_id
-          Client.find(client_id)
+          Client.find_by_client_id(client_id)
         end
 
         # Registers and returns a new Client. Can also be used to update
