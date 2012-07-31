@@ -26,5 +26,3 @@ module Rack
     end
   end
 end
-
-require "rack/oauth2/models/active_record"

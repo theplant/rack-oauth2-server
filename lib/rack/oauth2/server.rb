@@ -204,7 +204,7 @@ module Rack
       #
       Options = Struct.new(:access_token_path, :authenticator, :assertion_handler, :authorization_types,
         :authorize_path, :database, :host, :param_authentication, :path, :realm, 
-        :expires_in,:logger, :collection_prefix)
+        :expires_in,:logger, :collection_prefix, :store)
 
       # Global options. This is what we set during configuration (e.g. Rails'
       # config/application), and options all handlers inherit by default.

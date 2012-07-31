@@ -17,10 +17,23 @@ For more background, [check out the presentation slides](http://speakerdeck.com/
 The authorization server needs to keep track of clients, authorization requests, access grants and access tokens. That
 could only mean one thing: a database.
 
-The current release uses [MongoDB](http://www.mongodb.org/). You're going to need a running server and open connection in
+#### MongoDB (Default)
+
+The current release uses [MongoDB](http://www.mongodb.org/) by default. You're going to need a running server and open connection in
 the form of a `Mongo::DB` object.  Because MongoDB is schema-less, there's no need to run migrations.
 
-If MongoDB is not your flavor, you can easily change the models to support a different database engine. All the
+#### ActiveRecord
+
+To use ActiveRecord with Rails 3:
+
+```ruby
+Rails::Initializer.run do |config|
+  . . .
+  config.oauth.store = :active_record
+end
+```
+
+If neither MongoDB nor ActiveRecord is your flavor, you can easily change the models to support a different database engine. All the
 persistence logic is located in `lib/rack/oauth2/models` and kept simple by design. And if you did the work to support a
 different database engine, send us a pull request.
 
