@@ -401,6 +401,14 @@ module Rack
       # 4.  Obtaining an Access Token
       def respond_with_access_token(request, logger)
         return [405, { "Content-Type"=>"application/json" }, ["POST only"]] unless request.post?
+
+        if request.env['CONTENT_TYPE'] =~ /^application\/json/ && request.post?
+          request.env.update({
+                               'rack.request.form_hash' => ActiveSupport::JSON.decode(request.env['rack.input'].read),
+                               'rack.request.form_input' => request.env['rack.input']
+                             })
+        end
+
         # 4.2.  Access Token Response
         begin
           client = get_client(request)
