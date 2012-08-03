@@ -140,7 +140,7 @@ module Rack
         # Revokes this access token.
         def revoke!
           self.class.transaction do
-            update_attribute! :revoked, Time.now
+            update_attribute :revoked, Time.now
             client.increment! :tokens_revoked
           end
         end
