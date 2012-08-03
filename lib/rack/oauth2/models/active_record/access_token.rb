@@ -11,6 +11,8 @@ module Rack
         scope :active, lambda { where(revoked: nil) }
         scope :revoked, lambda { where("revoked is not null") }
 
+        validates_uniqueness_of :token
+
         class << self
 
           # Find AccessToken from token. Does not return revoked tokens.
@@ -26,7 +28,7 @@ module Rack
             raise ArgumentError, "Identity must be String or Integer" unless String === identity || Integer === identity
             scope = Utils.normalize_scope(scope) & client.scope # Only allowed scope
 
-            active.where(identity: identity, client_id: client, scope: scope).where("expires_at is null or expires_at > ?", expires).first ||
+            active.where(identity: identity, client_id: client.id, scope: scope.join(",")).where("expires_at is null or expires_at > ?", expires).first ||
                    create_token_for(client, scope, identity, expires)
           end
 
@@ -138,7 +140,7 @@ module Rack
         # Revokes this access token.
         def revoke!
           self.class.transaction do
-            update_attribute! :revoked, Time.now
+            update_attribute :revoked, Time.now
             client.increment! :tokens_revoked
           end
         end
