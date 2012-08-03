@@ -32,6 +32,7 @@ module Rack
                         :revoked=>nil }
 
             fields[:secret] = Server.secure_random
+            fields[:client_id] = Server.secure_random 4
 
             create! fields
           end
