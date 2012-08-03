@@ -11,6 +11,8 @@ module Rack
         scope :active, lambda { where(revoked: nil) }
         scope :revoked, lambda { where("revoked is not null") }
 
+        validates_uniqueness_of :token
+
         class << self
 
           # Find AccessToken from token. Does not return revoked tokens.
