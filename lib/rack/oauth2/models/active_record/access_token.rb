@@ -35,6 +35,8 @@ module Rack
           # Creates a new AccessToken for the given client and scope.
           def create_token_for(client, scope, identity = nil, expires = nil)
             expires_at = Time.now + expires if expires && expires != 0
+            scope = Utils.normalize_scope(scope) & client.scope # Only allowed scope
+
             attrs = { :token=>Server.secure_random, :scope=>scope,
                       :client_id=>client.id,
                       :expires_at=>expires_at, :revoked=>nil }
