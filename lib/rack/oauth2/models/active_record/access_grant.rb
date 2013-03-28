@@ -17,7 +17,7 @@ module Rack
             scope = Utils.normalize_scope(scope) & client.scope # Only allowed scope
             expires_at = Time.now.to_i + (expires || 300)
             fields = { :code=>Server.secure_random, :identity=>identity, :scope=>scope,
-                       :client=>client, :redirect_uri=>client.redirect_uri || redirect_uri,
+                       :client_id=>client.client_id, :redirect_uri=>client.redirect_uri || redirect_uri,
                        :expires_at=>expires_at, :granted_at=>nil,
                        :access_token=>nil, :revoked=>nil }
 
@@ -60,7 +60,7 @@ module Rack
         def authorize!(expires_in = nil)
           self.class.transaction do
             raise InvalidGrantError, "You can't use the same access grant twice" if self.access_token || self.revoked
-            client = Client.find(client_id) or raise InvalidGrantError
+            client = Client.find_by_client_id(client_id) or raise InvalidGrantError
             access_token = AccessToken.get_token_for(identity, client, scope, expires_in)
             self.access_token = access_token.token
             self.granted_at = Time.now.to_i
