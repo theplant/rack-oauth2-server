@@ -3,7 +3,6 @@ require "rack/oauth2/models"
 require "rack/oauth2/server/errors"
 require "rack/oauth2/server/utils"
 require "rack/oauth2/server/helper"
-require "iconv"
 require "json"
 
 module Rack
