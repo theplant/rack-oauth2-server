@@ -15,7 +15,7 @@ module Rack
           # and any state value to pass back in that redirect.
           def create(client, scope, redirect_uri, response_type, state)
             scope = Utils.normalize_scope(scope) & client.scope # Only allowed scope
-            fields = { :client_id=>client.client_id, :scope=>scope.join(","), :redirect_uri=>client.redirect_uri || redirect_uri,
+            fields = { :client_id=>client.id, :scope=>scope.join(","), :redirect_uri=>client.redirect_uri || redirect_uri,
                        :response_type=>response_type, :state=>state,
                        :grant_code=>nil, :authorized_at=>nil,
                        :revoked=>nil }
@@ -56,7 +56,7 @@ module Rack
         def grant!(identity, expires_in = nil)
           raise ArgumentError, "Must supply a identity" unless identity
           return if revoked?
-          client = Client.find_by_client_id(client_id) or return
+          client = Client.find(client_id) or return
 
           self.class.transaction do
             self.authorized_at = Time.now.to_i
