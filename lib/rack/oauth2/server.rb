@@ -419,7 +419,7 @@ module Rack
           when "authorization_code"
             # 4.1.1.  Authorization Code
             grant = AccessGrant.from_code(request.POST["code"])
-            raise InvalidGrantError, "Wrong client" unless grant && client.client_id.to_s == grant.client_id.to_s
+            raise InvalidGrantError, "Wrong client" unless grant && client.id.to_s == grant.client_id.to_s
             unless client.redirect_uri.nil? || client.redirect_uri.to_s.empty?
               raise InvalidGrantError, "Wrong redirect URI" unless grant.redirect_uri == Utils.parse_redirect_uri(request.POST["redirect_uri"]).to_s
             end
