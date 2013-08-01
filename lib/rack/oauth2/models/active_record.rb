@@ -3,7 +3,7 @@ module Rack
     class Server
 
       class ActiveRecord < ::ActiveRecord::Base
-        set_table_name do
+        def self.table_name
           "oauth2_provider_#{name.split("::").last.underscore}"
         end
       end
