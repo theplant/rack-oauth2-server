@@ -6,7 +6,8 @@ module Rack
       #
       # An access token is a unique code, associated with a client, an identity
       # and scope. It may be revoked, or expire after a certain period.
-      class AccessToken < ActiveRecord
+      class AccessToken < ActiveRecord::Base
+        extend ActiveRecordExt
 
         scope :active, lambda { where(revoked: nil) }
         scope :revoked, lambda { where("revoked is not null") }

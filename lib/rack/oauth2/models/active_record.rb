@@ -2,8 +2,8 @@ module Rack
   module OAuth2
     class Server
 
-      class ActiveRecord < ::ActiveRecord::Base
-        def self.table_name
+      module ActiveRecordExt
+        def table_name
           "oauth2_provider_#{name.split("::").last.underscore}"
         end
       end

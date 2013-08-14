@@ -4,7 +4,9 @@ module Rack
 
       # The access grant is a nonce, new grant created each time we need it and
       # good for redeeming one access token.
-      class AccessGrant < ActiveRecord
+      class AccessGrant < ActiveRecord::Base
+        extend ActiveRecordExt
+
         class << self
           # Find AccessGrant from authentication code.
           def from_code(code)

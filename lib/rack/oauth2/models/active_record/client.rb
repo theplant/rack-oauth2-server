@@ -2,7 +2,8 @@ module Rack
   module OAuth2
     class Server
 
-      class Client < ActiveRecord
+      class Client < ActiveRecord::Base
+        extend ActiveRecordExt
 
         # Returns all the clients in the database, sorted alphabetically.
 #        default_scope order(:display_name)

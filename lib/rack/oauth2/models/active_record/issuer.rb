@@ -3,7 +3,9 @@ module Rack
     class Server
       # A third party that issues assertions
       # http://tools.ietf.org/html/draft-ietf-oauth-assertions-01#section-5.1
-      class Issuer < ActiveRecord
+      class Issuer < ActiveRecord::Base
+        extend ActiveRecordExt
+
         class << self
 
           # returns the Issuer object for the given identifier
