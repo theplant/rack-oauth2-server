@@ -6,6 +6,10 @@ module Rack
         def table_name
           "oauth2_provider_#{name.split("::").last.underscore}"
         end
+
+        def self.extended(mod)
+          mod.attr_protected if mod.respond_to?(:attr_protected) # protect nothing
+        end
       end
 
       class << self
